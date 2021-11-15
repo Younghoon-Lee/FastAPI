@@ -1,11 +1,16 @@
 from typing import Optional
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
+from starlette.responses import FileResponse
 
 app = FastAPI()
+app.mount("/public", StaticFiles(directory="public"), name="public")
+
 
 @app.get("/")
-def read_root():
-    return {"Hello": "sojung"}
+def read_index():
+    return FileResponse('public/index.html')
 
 
 @app.get("/items/{item_id}")
